@@ -8,7 +8,7 @@ First, run `git config --global credential.helper store` from cmd/ gitbash to st
 
 Second, on lines 105 and 106 of the project, update with the filepath of your working folder and the top level directory all of your repos are stored in. 
 
-Afterwords, you can run from cmd like `python githubupdater.py`
+Afterwards, you can run from cmd like `python githubupdater.py`
 
 This program runs in phases. They are as follows. 
 
@@ -23,3 +23,5 @@ Phase 3) Go over each repo, commit with a procedurally generated comment and pus
 #check for updates - Deprecated in favor of passing the directories as var
 
 Frequency for this running will be once daily. You can put this on a clock with the standard `time`/ `datetime` wrapper. 
+
+## WARNING: If you have multiple distinct .py files with the same name, they will be overwritten. This program operates under the assumption that each .py file is a unique bit of code and that .py files sharing the same name are different versions of the same code. An exception has been included to overlook `Main` files as the use of that convention is ubiquitous. 
