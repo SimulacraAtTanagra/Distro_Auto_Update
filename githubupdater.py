@@ -1,18 +1,3 @@
-"""
-This is a github automatic updater
-
-Phase 1) Collect data from main programming folder, including filename and date
-last modified. Subset that data based on date last modified to only keep recents.
-
-Phase 2) iterate over the folders and files from some root directory, if the 
-file is on the list, overwrite local copy with version from programming folder
-
-Phase 3) Go over each repo, check for updates, commit with a procedurally 
-generated comment and push. 
-
-Frequency for this running will be once daily. 
-"""
-
 import os
 import pathlib
 from datetime import datetime as dt2
@@ -117,6 +102,9 @@ def phase3(infolder,outfolder):
     
     
 def main():
-    infolder=r''   #this is the folder containing the working code
-    outfoulder=r''  #this is the project folder to be updated and pushed
+    infolder=r'C:\Users\shane\Desktop\Projects\Programs'   #this is the folder containing the working code
+    outfolder=r'C:\Users\shane\Desktop\Programming'  #this is the project folder to be updated and pushed
     phase3(infolder,outfolder)
+    
+if __name__=="__main__":
+    main()
