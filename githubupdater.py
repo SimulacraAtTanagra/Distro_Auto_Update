@@ -22,7 +22,8 @@ def get_data(folder):   #create a hash table with all of the names and times
     for file in files:
         #base filename as primary key in table
         x,y=package(folder,file)
-        timedict.update({x:y})
+        if 'main' not in x.lower():
+            timedict.update({x:y})
     return(timedict)
 
 def phase1(infolder):   #grabbing data
