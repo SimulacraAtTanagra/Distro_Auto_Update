@@ -122,6 +122,17 @@ def general_update(repofolder):
     msg="Daily automated update"
     for foldername in subdirs:
         repo_update(os.path.abspath(foldername),message=msg)
+def readme_correct(repofolder): #single use function to repair readmes written previously
+    subdirs = [x[0] for x in os.walk(repofolder) if "src" not in x[0] and "git" not in x[0]]          
+    #msg="Daily automated update"
+    for foldername in subdirs:
+        if 'README.md' in os.listdir(foldername):
+            filename=os.path.join(foldername,'README.md')
+            with open(filename,'r') as f:
+                xyz=f.readlines()
+            xyz=[x.replace("##",'## ').replace('##  ','## ') for x in xyz]
+            with open(filename,'w') as f:
+                f.writelines(xyz)
         
 #TODO create audit tool to fix src if code drops a local file call + delete src if empty
 def main():
