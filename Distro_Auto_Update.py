@@ -121,8 +121,7 @@ def general_update(repofolder):
     subdirs = [x[0] for x in os.walk(repofolder) if "src" not in x[0] and "git" not in x[0]]          
     msg="Daily automated update"
     for foldername in subdirs:
-        print(foldername)
-        #repo_update(os.path.abspath(foldername),message=msg)
+        repo_update(os.path.abspath(foldername),message=msg)
         
 #TODO create audit tool to fix src if code drops a local file call + delete src if empty
 def main():
