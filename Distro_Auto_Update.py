@@ -122,6 +122,9 @@ def general_update(repofolder):
     msg="Daily automated update"
     for foldername in subdirs:
         repo_update(os.path.abspath(foldername),message=msg)
+        #TODO something in this step needs to account for removal of files
+        #not just addition. Removal from src based on absence in the code
+        
 def readme_correct(repofolder): #single use function to repair readmes written previously
     subdirs = [x[0] for x in os.walk(repofolder) if "src" not in x[0] and "git" not in x[0]]          
     #msg="Daily automated update"
