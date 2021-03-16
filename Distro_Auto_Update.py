@@ -137,7 +137,7 @@ def readme_correct(repofolder): #single use function to repair readmes written p
             xyz=[x.replace("##",'## ').replace('##  ','## ') for x in xyz]
             with open(filename,'w') as f:
                 f.writelines(xyz)
-        
+#TODO create function to add descriptions to files without them using cmd
 #TODO create audit tool to fix src if code drops a local file call + delete src if empty
 def main():
     infolder=r'C:\Users\shane\Desktop\Projects\Programs'   #this is the folder containing the working code
