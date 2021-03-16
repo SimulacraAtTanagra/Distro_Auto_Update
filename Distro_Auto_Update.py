@@ -122,6 +122,7 @@ def general_update(repofolder):
     msg="Daily automated update"
     for foldername in subdirs:
         repo_update(os.path.abspath(foldername),message=msg)
+        
         #TODO something in this step needs to account for removal of files
         #not just addition. Removal from src based on absence in the code
         
