@@ -144,11 +144,11 @@ def readme_correct(repofolder): #single use function to repair readmes written p
 #TODO create function to identify any variation on the names of my local folders
 #TODO create function to turn existing readme into json file
 
-def main(infolder=None,outfolder=None):
+def main(outfolder,infolder=None):
     if infolder:
         infolder=infolder
     else:
-        infolder=r'c:/some/input/folder'   #this is the folder containing the working code
+        infolder=os.getcwd()   #this is the folder containing the working code
     if outfolder:
         outfolder=outfolder
     else:
@@ -158,4 +158,4 @@ def main(infolder=None,outfolder=None):
     
     
 if __name__=="__main__":
-    main(infolder=PROG,outfolder=REPO)
+    main(REPO)
