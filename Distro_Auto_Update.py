@@ -118,9 +118,12 @@ def phase3(infolder,outfolder):
         message=f'updated {i[1]}'
         git_push(i[0],message)
     
-def general_update(repofolder):                                                                                                      
+def general_update(repofolder,msg=None):                                                                                                      
     subdirs = [x[0] for x in os.walk(repofolder) if "src" not in x[0] and "git" not in x[0] and "requirements" not in x[0]]          
-    msg="Daily automated update"
+    if msg:
+        msg=msg
+    else:
+        msg="Daily automated update"
     for foldername in subdirs:
         repo_update(os.path.abspath(foldername),message=msg)
         
@@ -129,15 +132,14 @@ def general_update(repofolder):
 
 # metafunction to more easily do simple, replicable actions
 def mass_action(folder,func,obj=None):
-    root=dirs=files=''
-    direction={'root':root, 'dirs':dirs, 'files':files}
     for root, dirs, files in os.walk(folder):
+        direction={'root':root, 'dirs':dirs, 'files':files}
         if obj:
             for x in direction[obj]:
-                func(x)
+                func(os.path.join(root,x))
         else:   #defaults to files
             for x in files:
-                func(x)
+                func(os.path.join(root,x))
             
 #for example, updating all the readmes in my entire git because they were corrupted
 def update_reqs():
@@ -174,7 +176,7 @@ def main(outfolder,infolder=None):
     else:
         outfolder=r'c:/some/output/folder'  #this is the project folder to be updated and pushed
     phase3(infolder,outfolder)
-    general_update(outfolder)
+    general_update(outfolder,msg='Mass requirements update due to error')
     
     
 if __name__=="__main__":
