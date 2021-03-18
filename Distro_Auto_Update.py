@@ -128,14 +128,23 @@ def general_update(repofolder):
         #not just addition. Removal from src based on absence in the code
 
 # metafunction to more easily do simple, replicable actions
-def mass_action(folder,func):
+def mass_action(folder,func,obj=None):
+    root=dirs=files=''
+    direction={'root':root, 'dirs':dirs, 'files':files}
     for root, dirs, files in os.walk(folder):
-        for dir in dirs:
-            func(dir)
+        if obj:
+            for x in direction[obj]:
+                func(x)
+        else:   #defaults to files
+            for x in files:
+                func(x)
             
-#for example, updating all the readmes in my entire git
+#for example, updating all the readmes in my entire git because they were corrupted
 def update_reqs():
-    mass_action(os.cwd(),replace_req)
+    """
+    This function deletes and recreates the requirements file in the cwd
+    """
+    mass_action(os.getcwd(),replace_req,obj='dirs')
             
 def readme_correct(repofolder): #single use function to repair readmes written previously
     subdirs = [x[0] for x in os.walk(repofolder) if "src" not in x[0] and "git" not in x[0]]          
