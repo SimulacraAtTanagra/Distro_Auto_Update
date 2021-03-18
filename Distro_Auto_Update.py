@@ -139,12 +139,18 @@ def readme_correct(repofolder): #single use function to repair readmes written p
                 f.writelines(xyz)
 #TODO create function to add descriptions to files without them using cmd
 #TODO create audit tool to fix src if code drops a local file call + delete src if empty
-def main():
-    infolder=PROG   #this is the folder containing the working code
-    outfolder=REPO  #this is the project folder to be updated and pushed
+def main(infolder=None,outfolder=None):
+    if infolder:
+        infolder=infolder
+    else:
+        infolder=r'c:/some/input/folder'   #this is the folder containing the working code
+    if outfolder:
+        outfolder=outfolder
+    else:
+        outfolder=r'c:/some/output/folder'  #this is the project folder to be updated and pushed
     phase3(infolder,outfolder)
     general_update(outfolder)
     
     
 if __name__=="__main__":
-    main()
+    main(infolder=PROG,outfolder=REPO)
