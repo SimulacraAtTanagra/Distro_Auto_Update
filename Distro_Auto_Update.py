@@ -4,6 +4,7 @@ from datetime import datetime as dt2
 import shutil
 from git import Repo
 from repo_helper import repo_update
+from req_funcs import replace_req
 
 
 def last_modified(fname):   #getting the date last modified
@@ -118,14 +119,24 @@ def phase3(infolder,outfolder):
         git_push(i[0],message)
     
 def general_update(repofolder):                                                                                                      
-    subdirs = [x[0] for x in os.walk(repofolder) if "src" not in x[0] and "git" not in x[0]]          
+    subdirs = [x[0] for x in os.walk(repofolder) if "src" not in x[0] and "git" not in x[0] and "requirements" not in x[0]]          
     msg="Daily automated update"
     for foldername in subdirs:
         repo_update(os.path.abspath(foldername),message=msg)
         
         #TODO something in this step needs to account for removal of files
         #not just addition. Removal from src based on absence in the code
-        
+
+# metafunction to more easily do simple, replicable actions
+def mass_action(folder,func):
+    for root, dirs, files in os.walk(folder):
+        for dir in dirs:
+            func(dir)
+            
+#for example, updating all the readmes in my entire git
+def update_reqs():
+    mass_action(os.cwd(),replace_req)
+            
 def readme_correct(repofolder): #single use function to repair readmes written previously
     subdirs = [x[0] for x in os.walk(repofolder) if "src" not in x[0] and "git" not in x[0]]          
     #msg="Daily automated update"
