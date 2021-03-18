@@ -139,6 +139,10 @@ def readme_correct(repofolder): #single use function to repair readmes written p
                 f.writelines(xyz)
 #TODO create function to add descriptions to files without them using cmd
 #TODO create audit tool to fix src if code drops a local file call + delete src if empty
+#TODO create function to identify the absence of if __name__=='__main__'
+#TODO create function to identify any variation on the names of my local folders
+#TODO create function to turn readme into json file
+
 def main(infolder=None,outfolder=None):
     if infolder:
         infolder=infolder
