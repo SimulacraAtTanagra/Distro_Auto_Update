@@ -176,7 +176,7 @@ def main(outfolder,infolder=None):
     else:
         outfolder=r'c:/some/output/folder'  #this is the project folder to be updated and pushed
     phase3(infolder,outfolder)
-    general_update(outfolder,msg='Mass requirements update due to error')
+    general_update(outfolder)
     
     
 if __name__=="__main__":
