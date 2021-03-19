@@ -5,6 +5,7 @@ import shutil
 from git import Repo
 from repo_helper import repo_update
 from req_funcs import replace_req
+from readme_writer import rewrite_readme
 
 
 def last_modified(fname):   #getting the date last modified
@@ -144,9 +145,16 @@ def mass_action(folder,func,obj=None):
 #for example, updating all the readmes in my entire git because they were corrupted
 def update_reqs():
     """
-    This function deletes and recreates the requirements file in the cwd
+    This function deletes and recreates all requirements files in subdirs
     """
     mass_action(os.getcwd(),replace_req,obj='dirs')
+
+#or if I've realized my readme files are horrifically unstandardized    
+def general_readme_update():
+    """
+    This function evaluates and recreates the all readme files in subdirs
+    """
+    mass_action(os.getcwd(),rewrite_readme,obj='dirs')
             
 def readme_correct(repofolder): #single use function to repair readmes written previously
     subdirs = [x[0] for x in os.walk(repofolder) if "src" not in x[0] and "git" not in x[0]]          
