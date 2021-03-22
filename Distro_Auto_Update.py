@@ -3,9 +3,10 @@ import pathlib
 from datetime import datetime as dt2
 import shutil
 from git import Repo
-from repo_helper import repo_update, library_search
+from repo_helper import repo_update, library_search,recursive_import,mass_copy,update_main as um
 from req_funcs import replace_req
 from readme_writer import rewrite_readme
+from admin import select_thing
 
 
 def last_modified(fname):   #getting the date last modified
@@ -148,6 +149,27 @@ def remove_libraries(infolder,toplevel,references,possiblelist):
                 print(f'now removing {file}')
                 os.remove(os.path.join(dir,file))
     #works like a charm
+    
+def restore_libs(outfolder,infolder=None):
+    mainpy=[x for x in os.listdir(outfolder) if '.py' in x]
+    if infolder:
+        infolder=infolder
+    else:
+        infolder=PROG
+    if len(mainpy)>1:
+        selection=mainpy[select_thing(mainpy)]
+    elif len(mainpy)==1:
+        selection=mainpy[0]
+    else:
+        selection=None
+    if selection!=None:
+        contents=[file for file in os.listdir(os.path.join(outfolder,'src')) if file in os.listdir(infolder)]
+        locals_=library_search(os.path.join(outfolder,selection))
+        locals_=[file for file in locals_ if file in [x[:-3] for x in contents]]
+        mass_copy(locals_,infolder,os.path.join(outfolder,'src'))
+        recursive_import(infolder,os.path.join(outfolder,'src'),os.listdir(infolder))
+        um(outfolder,os.path.join(outfolder,selection))
+        
 def clean_libs(infolder):
     x,y,z=grab_libraries(infolder)
     remove_libraries(infolder,x,y,z)
@@ -209,6 +231,7 @@ def general_library_cleaning(repofolder):
     functions in any of the other files and it's not a top level file
     (like a 'main.py' file), it is removed.
     """
+    mass_action(repofolder,restore_libs,obj='dirs')
     mass_action(repofolder,clean_libs,obj='dirs')
 
 #TODO create function to add descriptions to files without them using cmd
@@ -230,9 +253,10 @@ def main(outfolder,infolder=None):
     else:
         outfolder=r'c:/some/output/folder'  #this is the project folder to be updated and pushed
     phase3(infolder,outfolder)
-    general_update(outfolder)
     general_library_cleaning(outfolder)
+    general_update(outfolder)
+    
     
     
 if __name__=="__main__":
-    main(REPO)
+    main(REPO,infolder=PROG)
