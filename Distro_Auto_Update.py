@@ -157,6 +157,7 @@ def restore_libs(outfolder,infolder=None):
     else:
         infolder=PROG
     if len(mainpy)>1:
+        print(outfolder)
         selection=select_thing(mainpy)
     elif len(mainpy)==1:
         selection=mainpy[0]
