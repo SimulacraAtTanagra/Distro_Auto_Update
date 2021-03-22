@@ -3,7 +3,7 @@ import pathlib
 from datetime import datetime as dt2
 import shutil
 from git import Repo
-from repo_helper import repo_update
+from repo_helper import repo_update, library_search
 from req_funcs import replace_req
 from readme_writer import rewrite_readme
 
@@ -118,6 +118,40 @@ def phase3(infolder,outfolder):
     for i in replacelist:
         message=f'updated {i[1]}'
         git_push(i[0],message)
+
+def grab_libraries(infolder): #audit tool to fix src if code drops a local file call + delete src if empty
+    #avoid removing the top level object (since it won't be called anywhere)
+    toplevel=[file for file in os.listdir(infolder) if '.py' in file]
+    #all libraries referenced in all folders
+    references=[]
+    #all py files in all folders
+    possiblelist=[]
+    for dirs, subdirs, files in os.walk(infolder):
+        possibles=[file for file in files if '.py' in file]
+        possiblelist.extend(possibles)
+        #this should have all of the python files within a given folder at a time
+        biglib=[]
+        for file in possibles:
+            biglib.extend(library_search(os.path.join(dirs,file)))
+        #pulling library/ import data for all files period
+        biglib=list(set(biglib))
+        references.extend(biglib)
+    return(toplevel,references,possiblelist)
+    #this can also be used for src folder repair in the event of something else happening
+    
+def remove_libraries(infolder,toplevel,references,possiblelist):
+    extras= [file for file in possiblelist if file[:-3] not in references and file not in toplevel]
+        #these are the files that no one needs anymore.     
+    for dir,subdirs,files in os.walk(infolder):
+        for file in files:
+            if file in extras:
+                print(f'now removing {file}')
+                os.remove(os.path.join(dir,file))
+    #works like a charm
+def clean_libs(infolder):
+    x,y,z=grab_libraries(infolder)
+    remove_libraries(infolder,x,y,z)
+
     
 def general_update(repofolder,msg=None):                                                                                                      
     subdirs = [x[0] for x in os.walk(repofolder) if "src" not in x[0] and "git" not in x[0] and "requirements" not in x[0]]          
@@ -167,12 +201,24 @@ def readme_correct(repofolder): #single use function to repair readmes written p
             xyz=[x.replace("##",'## ').replace('##  ','## ') for x in xyz]
             with open(filename,'w') as f:
                 f.writelines(xyz)
+
+def general_library_cleaning(repofolder):
+    """
+    This function checks each py file in a folder (should be a single repo).
+    If a file is no longer required, because it is not called to support any
+    functions in any of the other files and it's not a top level file
+    (like a 'main.py' file), it is removed.
+    """
+    mass_action(repofolder,clean_libs,obj='dirs')
+
 #TODO create function to add descriptions to files without them using cmd
-#TODO create audit tool to fix src if code drops a local file call + delete src if empty
+
 #TODO create function to identify the absence of if __name__=='__main__'
 #TODO insert that line and a comment at end of file if absent
 #TODO create function to identify any variation on the names of my local folders
 #TODO create function to turn existing readme into json file
+        
+    
 
 def main(outfolder,infolder=None):
     if infolder:
@@ -185,6 +231,7 @@ def main(outfolder,infolder=None):
         outfolder=r'c:/some/output/folder'  #this is the project folder to be updated and pushed
     phase3(infolder,outfolder)
     general_update(outfolder)
+    general_library_cleaning(outfolder)
     
     
 if __name__=="__main__":
