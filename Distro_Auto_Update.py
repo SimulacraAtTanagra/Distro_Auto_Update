@@ -163,7 +163,10 @@ def restore_libs(outfolder,infolder=None):
     else:
         selection=None
     if selection!=None:
-        contents=[file for file in os.listdir(os.path.join(outfolder,'src')) if file in os.listdir(infolder)]
+        try:
+            contents=[file for file in os.listdir(os.path.join(outfolder,'src')) if file in os.listdir(infolder)]
+        except FileNotFoundError:
+            return(False)
         locals_=library_search(os.path.join(outfolder,selection))
         locals_=[file for file in locals_ if file in [x[:-3] for x in contents]]
         mass_copy(locals_,infolder,os.path.join(outfolder,'src'))
