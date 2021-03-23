@@ -188,11 +188,9 @@ def general_update(repofolder,msg=None):
         msg="Daily automated update"
     for foldername in subdirs:
         repo_update(os.path.abspath(foldername),message=msg)
-        
-        #TODO something in this step needs to account for removal of files
-        #not just addition. Removal from src based on absence in the code
 
-# metafunction to more easily do simple, replicable actions
+
+#metafunction to more easily do simple, replicable actions
 def mass_action(folder,func,obj=None):
     for root, dirs, files in os.walk(folder):
         direction={'root':root, 'dirs':dirs, 'files':files}
@@ -204,6 +202,8 @@ def mass_action(folder,func,obj=None):
                 func(os.path.join(root,x))
             
 #for example, updating all the readmes in my entire git because they were corrupted
+#TODO create means of scanning the folder for a trigger condition for update_reqs()/rewrite readme
+#conditions include all libs returned from main file are not accounted for in builtins, requirements and src. 
 def update_reqs():
     """
     This function deletes and recreates all requirements files in subdirs
