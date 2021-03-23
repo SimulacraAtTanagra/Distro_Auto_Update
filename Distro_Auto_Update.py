@@ -155,6 +155,7 @@ def restore_libs(outfolder,infolder=None):
     if infolder:
         infolder=infolder
     else:
+        global PROG
         infolder=PROG
     if len(mainpy)>1:
         print(outfolder)
