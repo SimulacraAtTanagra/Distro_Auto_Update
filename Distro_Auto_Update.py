@@ -155,8 +155,8 @@ def restore_libs(outfolder,infolder=None):
     if infolder:
         infolder=infolder
     else:
-        global PROG
-        infolder=PROG
+        #this is throwing an error so I have to declare a literal UGH
+        infolder='C:\\Users\\shane\\Desktop\\Projects\\Programs'
     if len(mainpy)>1:
         print(outfolder)
         selection=select_thing(mainpy)
