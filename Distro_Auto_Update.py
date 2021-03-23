@@ -238,7 +238,15 @@ def general_library_cleaning(repofolder):
     """
     mass_action(repofolder,restore_libs,obj='dirs')
     mass_action(repofolder,clean_libs,obj='dirs')
-
+def empty_src_removal(repofolder):
+    for dir, subdir, files in os.walk(repofolder):
+        try:
+            file=os.path.join(subdir,'src')
+            filelist=os.listdir(file) 
+            if len(filelist)<1:
+                os.remove(file)
+        except:
+            pass
 #TODO create function to add descriptions to files without them using cmd
 
 #TODO create function to identify the absence of if __name__=='__main__'
@@ -258,9 +266,9 @@ def main(outfolder,infolder=None):
     else:
         outfolder=r'c:/some/output/folder'  #this is the project folder to be updated and pushed
     phase3(infolder,outfolder)
-    general_library_cleaning(outfolder)
+    #general_library_cleaning(outfolder)
     general_update(outfolder)
-    
+    empty_src_removal(outfolder)
     
     
 if __name__=="__main__":
