@@ -253,7 +253,7 @@ def empty_src_removal(repofolder):
 #TODO insert that line and a comment at end of file if absent
 #TODO create function to identify any variation on the names of my local folders
 #TODO create function to turn existing readme into json file
-        
+#TODO append versioning tag to all readme json files to allow for reading without requiring interaction
     
 
 def main(outfolder,infolder=None):
