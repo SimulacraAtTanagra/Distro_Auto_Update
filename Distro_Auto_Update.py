@@ -266,9 +266,9 @@ def main(outfolder,infolder=None):
     else:
         outfolder=r'c:/some/output/folder'  #this is the project folder to be updated and pushed
     phase3(infolder,outfolder)
-    #general_library_cleaning(outfolder)
-    general_update(outfolder)
+    #general_library_cleaning(outfolder
     empty_src_removal(outfolder)
+    general_update(outfolder)
     
     
 if __name__=="__main__":
